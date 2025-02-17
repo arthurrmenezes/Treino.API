@@ -5,10 +5,11 @@ namespace TreinoAPI.DataBase;
 
 public class TreinoContext : DbContext
 {
-    public DbSet<Treino> Treinos { get; set; }
+    public DbSet<TreinoModel> Treinos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer();
+        optionsBuilder.UseSqlServer("Data Source=DESKTOP-SD3LB7D;Initial Catalog=Treino;" +
+            "Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
     }
 }

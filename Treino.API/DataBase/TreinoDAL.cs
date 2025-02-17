@@ -1,32 +1,42 @@
-﻿using TreinoAPI.Modelos;
+﻿using TreinoAPI.Exceptions;
+using TreinoAPI.Modelos;
 
 namespace TreinoAPI.DataBase;
 
 public class TreinoDAL
 {
-    private TreinoContext treinoContext;
+    private readonly TreinoContext treinoContext;
 
-    public TreinoDAL()
+    public TreinoDAL(TreinoContext treinoContext)
     {
-        treinoContext = new TreinoContext();
+        this.treinoContext = treinoContext;
     }
 
-    public void AdicionarTreino(Treino treino)
+    public void AdicionarTreino(TreinoModel treino)
     {
         treinoContext.Treinos.Add(treino);
         treinoContext.SaveChanges();
     }
 
-    public IEnumerable<Treino> MostrarTreino()
+    public IEnumerable<TreinoModel> MostrarTodosOsTreinos()
     {
         if (treinoContext.Treinos.Count() == 0)
         {
-            throw new Exception();
+            throw new TreinoNotFoundException("Nenhum treino foi cadastrado.");
         }
         return treinoContext.Treinos.ToList();
     }
+    
+    public void AtualizarTreino(TreinoModel treino)
+    {
+        treinoContext.Treinos.Update(treino);
+        treinoContext.SaveChanges();
+    }
 
-    // corrida mais rapida
-    // maior distancia corrida
-    // total de corridas no mes X... passar X como parametro
+    public void RemoverTreino(int id)
+    {
+        var treino = treinoContext.Treinos.Where(t => t.Id.Equals(id)).FirstOrDefault();
+        treinoContext.Treinos.Remove(treino!);
+        treinoContext.SaveChanges();
+    }
 }
