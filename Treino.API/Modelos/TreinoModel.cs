@@ -1,11 +1,11 @@
 ﻿namespace TreinoAPI.Modelos;
 public class TreinoModel
 {
-    public int Id { get; private set; }
-    public string Local { get; private set; }
-    public double Distancia { get; private set; }
-    public DateTime Data { get; private set; }
-    public TimeSpan Tempo { get; private set; }
+    public int Id { get; set; }
+    public string Local { get; set; }
+    public double Distancia { get; set; }
+    public DateTime Data { get; set; }
+    public TimeSpan Tempo { get; set; }
 
     public TreinoModel(string local, double distancia, DateTime data, TimeSpan tempo)
     {
