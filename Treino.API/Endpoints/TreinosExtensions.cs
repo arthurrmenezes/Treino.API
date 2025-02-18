@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Treino.API.Requests;
 using TreinoAPI.DataBase;
 using TreinoAPI.Modelos;
 
@@ -8,8 +9,10 @@ namespace Treino.API.Endpoints
     {
         public static void AddEndpointsTreinos(this WebApplication app)
         {
-            app.MapPost("/Treinos", ([FromServices] TreinoDAL treinoDAL, [FromBody] TreinoModel treino) =>
+            app.MapPost("/Treinos", ([FromServices] TreinoDAL treinoDAL, [FromBody] TreinoRequest treinoRequest) =>
             {
+                var treino = new TreinoModel(treinoRequest.local, treinoRequest.distancia,
+                    treinoRequest.data, treinoRequest.tempo);
                 treinoDAL.AdicionarTreino(treino);
                 return Results.Ok();
             });
