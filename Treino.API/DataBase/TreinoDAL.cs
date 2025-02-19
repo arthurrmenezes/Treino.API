@@ -26,9 +26,13 @@ public class TreinoDAL
         }
         return treinoContext.Treinos.ToList();
     }
-    
+
     public void AtualizarTreino(TreinoModel treino)
     {
+        if (treino is null)
+        {
+            throw new TreinoNotFoundException("Nenhum treino foi encontrado.");
+        }
         treinoContext.Treinos.Update(treino);
         treinoContext.SaveChanges();
     }
@@ -36,7 +40,44 @@ public class TreinoDAL
     public void RemoverTreino(int id)
     {
         var treino = treinoContext.Treinos.Where(t => t.Id.Equals(id)).FirstOrDefault();
+        if (treino is null)
+        {
+            throw new TreinoNotFoundException("Nenhum treino foi encontrado com esse Id.");
+        }
         treinoContext.Treinos.Remove(treino!);
         treinoContext.SaveChanges();
+    }
+
+    public TreinoModel MostrarTreinoMaisRapido2km()
+    {
+        var treinoMaisRapido = treinoContext.Treinos.OrderBy(t => t.Tempo)
+            .Where(t => t.Distancia >= 2.00)
+            .FirstOrDefault();
+
+        if (treinoMaisRapido is null)
+        {
+            throw new TreinoNotFoundException("Nenhum treino acima de 2km foi encontrado.");
+        }
+        return treinoMaisRapido;
+    }
+
+    public TreinoModel MostrarTreinoMaisDistante()
+    {
+        var treinoMaisDistante = treinoContext.Treinos.OrderByDescending(t => t.Distancia).FirstOrDefault();
+        if (treinoMaisDistante is null)
+        {
+            throw new TreinoNotFoundException("Nenhum treino foi encontrado.");
+        }
+        return treinoMaisDistante;
+    }
+
+    public TreinoModel MostrarTreinoMaisLongo()
+    {
+        var treinoMaisLongo = treinoContext.Treinos.OrderByDescending(t => t.Tempo).FirstOrDefault();
+        if (treinoMaisLongo is null)
+        {
+            throw new TreinoNotFoundException("Nenhum treino foi encontrado.");
+        }
+        return treinoMaisLongo;
     }
 }
