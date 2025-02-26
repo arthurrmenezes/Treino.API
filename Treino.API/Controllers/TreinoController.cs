@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Treino.API.DataBase;
 using Treino.API.Models;
-using Treino.API.Requests;
 using TreinoAPI.DataBase;
 using TreinoAPI.Exceptions;
 
@@ -11,10 +11,10 @@ namespace Treino.API.Endpoints;
 public class TreinoController : ControllerBase
 {
     [HttpPost]
-    public IActionResult AdicionarTreino([FromServices] TreinoDAL treinoDAL, [FromBody] TreinoRequest treinoRequest)
+    public IActionResult AdicionarTreino([FromServices] TreinoDAL treinoDAL, [FromBody] TreinoDTO treinoDto)
     {
-        TreinoModel treino = new TreinoModel(treinoRequest.local, treinoRequest.distancia,
-            treinoRequest.data, treinoRequest.tempo);
+        TreinoModel treino = new TreinoModel(treinoDto.local, treinoDto.distancia,
+            treinoDto.data, treinoDto.tempo);
         treinoDAL.AdicionarTreino(treino);
         return CreatedAtAction(nameof(GetAllTreinos), new { id = treino.Id }, treino);
     }
@@ -38,16 +38,16 @@ public class TreinoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult AtualizarTreino(int id, [FromServices] TreinoDAL treinoDAL, [FromBody] TreinoModel treino)
+    public IActionResult AtualizarTreino(int id, [FromServices] TreinoDAL treinoDAL, [FromBody] TreinoDTO treinoDto)
     {
         try
         {
             var treinoAAtualizar = treinoDAL.GetTreinoPorId(id);
 
-            treinoAAtualizar.Local = treino.Local;
-            treinoAAtualizar.Distancia = treino.Distancia;
-            treinoAAtualizar.Data = treino.Data;
-            treinoAAtualizar.Tempo = treino.Tempo;
+            treinoAAtualizar.Local = treinoDto.local;
+            treinoAAtualizar.Distancia = treinoDto.distancia;
+            treinoAAtualizar.Data = treinoDto.data;
+            treinoAAtualizar.Tempo = treinoDto.tempo;
 
             treinoDAL.AtualizarTreino(treinoAAtualizar);
             return NoContent();
