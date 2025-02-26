@@ -1,19 +1,27 @@
-﻿using Treino.API.Models;
+﻿using Treino.API.DataBase.Dtos.Treino;
+using Treino.API.Models;
+using TreinoAPI.DataBase;
 using TreinoAPI.Exceptions;
 
-namespace TreinoAPI.DataBase;
+namespace Treino.API.Services;
 
-public class TreinoDAL
+public class TreinoService
 {
     private readonly TreinoContext treinoContext;
 
-    public TreinoDAL(TreinoContext treinoContext)
+    public TreinoService(TreinoContext treinoContext)
     {
         this.treinoContext = treinoContext;
     }
 
-    public void AdicionarTreino(TreinoModel treino)
+    public void AdicionarTreino(TreinoDTO treinoDto)
     {
+        TreinoModel treino = new TreinoModel(treinoDto.Local, treinoDto.Distancia, treinoDto.Data, treinoDto.Tempo);
+        if (treino is null)
+        {
+            // faz sentido verificar se é null???
+            // chamar treinoDTO no SERVICE, e refatorar CONTROLLER...
+        }
         treinoContext.Treinos.Add(treino);
         treinoContext.SaveChanges();
     }
@@ -53,7 +61,7 @@ public class TreinoDAL
         var treino = treinoContext.Treinos.FirstOrDefault(t => t.Id.Equals(id));
         if (treino is null)
         {
-            throw new TreinoNotFoundException($"Nenhum treino com Id {id} foi encontrado.");
+            throw new TreinoNotFoundException($"Nenhum treino com ID {id} foi encontrado.");
         }
         treinoContext.Update(treino);
         treinoContext.SaveChanges();

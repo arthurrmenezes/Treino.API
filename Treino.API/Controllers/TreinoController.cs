@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Treino.API.DataBase;
+using Treino.API.DataBase.Dtos.Treino;
 using Treino.API.Models;
-using TreinoAPI.DataBase;
+using Treino.API.Services;
 using TreinoAPI.Exceptions;
 
 namespace Treino.API.Endpoints;
@@ -11,16 +11,16 @@ namespace Treino.API.Endpoints;
 public class TreinoController : ControllerBase
 {
     [HttpPost]
-    public IActionResult AdicionarTreino([FromServices] TreinoDAL treinoDAL, [FromBody] TreinoDTO treinoDto)
+    public IActionResult AdicionarTreino([FromServices] TreinoService treinoDAL, [FromBody] TreinoDTO treinoDto)
     {
-        TreinoModel treino = new TreinoModel(treinoDto.local, treinoDto.distancia,
-            treinoDto.data, treinoDto.tempo);
+        TreinoModel treino = new TreinoModel(treinoDto.Local, treinoDto.Distancia,
+            treinoDto.Data, treinoDto.Tempo);
         treinoDAL.AdicionarTreino(treino);
         return CreatedAtAction(nameof(GetAllTreinos), new { id = treino.Id }, treino);
     }
 
     [HttpGet]
-    public IActionResult GetAllTreinos([FromServices] TreinoDAL treinoDAL)
+    public IActionResult GetAllTreinos([FromServices] TreinoService treinoDAL)
     {
         try
         {
@@ -38,16 +38,16 @@ public class TreinoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult AtualizarTreino(int id, [FromServices] TreinoDAL treinoDAL, [FromBody] TreinoDTO treinoDto)
+    public IActionResult AtualizarTreino(int id, [FromServices] TreinoService treinoDAL, [FromBody] TreinoDTO treinoDto)
     {
         try
         {
             var treinoAAtualizar = treinoDAL.GetTreinoPorId(id);
 
-            treinoAAtualizar.Local = treinoDto.local;
-            treinoAAtualizar.Distancia = treinoDto.distancia;
-            treinoAAtualizar.Data = treinoDto.data;
-            treinoAAtualizar.Tempo = treinoDto.tempo;
+            treinoAAtualizar.Local = treinoDto.Local;
+            treinoAAtualizar.Distancia = treinoDto.Distancia;
+            treinoAAtualizar.Data = treinoDto.Data;
+            treinoAAtualizar.Tempo = treinoDto.Tempo;
 
             treinoDAL.AtualizarTreino(treinoAAtualizar);
             return NoContent();
@@ -63,7 +63,7 @@ public class TreinoController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeletarTreino([FromServices] TreinoDAL treinoDAL, int id)
+    public IActionResult DeletarTreino([FromServices] TreinoService treinoDAL, int id)
     {
         try
         {
@@ -81,7 +81,7 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetTreinoPorId([FromServices] TreinoDAL treinoDAL, int id)
+    public IActionResult GetTreinoPorId([FromServices] TreinoService treinoDAL, int id)
     {
         try
         {
@@ -99,7 +99,7 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("MaisRapido/2km")]
-    public IActionResult GetTreinoMaisRapido2km([FromServices] TreinoDAL treinoDAL)
+    public IActionResult GetTreinoMaisRapido2km([FromServices] TreinoService treinoDAL)
     {
         try
         {
@@ -116,7 +116,7 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("MaisDistante")]
-    public IActionResult GetTreinoMaisDistante([FromServices] TreinoDAL treinoDAL)
+    public IActionResult GetTreinoMaisDistante([FromServices] TreinoService treinoDAL)
     {
         try
         {
@@ -133,7 +133,7 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("MaisLongo")]
-    public IActionResult GetTreinoMaisLongo([FromServices] TreinoDAL treinoDAL)
+    public IActionResult GetTreinoMaisLongo([FromServices] TreinoService treinoDAL)
     {
         try
         {
