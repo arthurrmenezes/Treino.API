@@ -1,5 +1,5 @@
-﻿using TreinoAPI.Exceptions;
-using TreinoAPI.Modelos;
+﻿using Treino.API.Models;
+using TreinoAPI.Exceptions;
 
 namespace TreinoAPI.DataBase;
 
@@ -46,6 +46,18 @@ public class TreinoDAL
         }
         treinoContext.Treinos.Remove(treino!);
         treinoContext.SaveChanges();
+    }
+
+    public TreinoModel GetTreinoPorId(int id)
+    {
+        var treino = treinoContext.Treinos.FirstOrDefault(t => t.Id.Equals(id));
+        if (treino is null)
+        {
+            throw new TreinoNotFoundException($"Nenhum treino com Id {id} foi encontrado.");
+        }
+        treinoContext.Update(treino);
+        treinoContext.SaveChanges();
+        return treino;
     }
 
     public TreinoModel MostrarTreinoMaisRapido2km()

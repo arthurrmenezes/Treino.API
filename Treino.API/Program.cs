@@ -1,4 +1,3 @@
-using Treino.API.Endpoints;
 using TreinoAPI.DataBase;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +8,11 @@ builder.Services.AddTransient<TreinoDAL>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
-app.AddEndpointsTreinos();
+app.MapControllers();
 
 app.UseSwagger();
 app.UseSwaggerUI();

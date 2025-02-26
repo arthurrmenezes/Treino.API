@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TreinoAPI.Modelos;
+using Treino.API.Models;
 
 namespace TreinoAPI.DataBase;
 
