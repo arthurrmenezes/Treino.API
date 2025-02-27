@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Treino.API.DataBase.Dtos.Treino;
-using Treino.API.Models;
 using Treino.API.Services;
 using TreinoAPI.Exceptions;
 
@@ -10,21 +9,27 @@ namespace Treino.API.Endpoints;
 [Route("[controller]")]
 public class TreinoController : ControllerBase
 {
-    [HttpPost]
-    public IActionResult AdicionarTreino([FromServices] TreinoService treinoDAL, [FromBody] TreinoDTO treinoDto)
+    private TreinoService treinoService;
+
+    public TreinoController(TreinoService treinoService)
     {
-        TreinoModel treino = new TreinoModel(treinoDto.Local, treinoDto.Distancia,
-            treinoDto.Data, treinoDto.Tempo);
-        treinoDAL.AdicionarTreino(treino);
-        return CreatedAtAction(nameof(GetAllTreinos), new { id = treino.Id }, treino);
+        this.treinoService = treinoService;
+    }
+
+    [HttpPost]
+    public IActionResult AdicionarTreino([FromBody] TreinoDto treinoDto)
+    {
+        treinoService.AdicionarTreino(treinoDto);
+        return Created();
+        // return CreatedAtAction(nameof(GetTreinoPorId), new { id = treinoDto.Id }, treinoDto);
     }
 
     [HttpGet]
-    public IActionResult GetAllTreinos([FromServices] TreinoService treinoDAL)
+    public IActionResult GetAllTreinos()
     {
         try
         {
-            var treinos = treinoDAL.MostrarTodosOsTreinos();
+            var treinos = treinoService.MostrarTodosOsTreinos();
             return Ok(treinos);
         }
         catch (TreinoNotFoundException ex)
@@ -38,18 +43,11 @@ public class TreinoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult AtualizarTreino(int id, [FromServices] TreinoService treinoDAL, [FromBody] TreinoDTO treinoDto)
+    public IActionResult AtualizarTreino(int id, [FromBody] TreinoDto treinoDto)
     {
         try
-        {
-            var treinoAAtualizar = treinoDAL.GetTreinoPorId(id);
-
-            treinoAAtualizar.Local = treinoDto.Local;
-            treinoAAtualizar.Distancia = treinoDto.Distancia;
-            treinoAAtualizar.Data = treinoDto.Data;
-            treinoAAtualizar.Tempo = treinoDto.Tempo;
-
-            treinoDAL.AtualizarTreino(treinoAAtualizar);
+        {            
+            treinoService.AtualizarTreino(id, treinoDto);
             return NoContent();
         }
         catch (TreinoNotFoundException ex)
@@ -63,11 +61,11 @@ public class TreinoController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeletarTreino([FromServices] TreinoService treinoDAL, int id)
+    public IActionResult DeletarTreino(int id)
     {
         try
         {
-            treinoDAL.RemoverTreino(id);
+            treinoService.RemoverTreino(id);
             return NoContent();
         }
         catch (TreinoNotFoundException)
@@ -81,11 +79,11 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetTreinoPorId([FromServices] TreinoService treinoDAL, int id)
+    public IActionResult GetTreinoPorId(int id)
     {
         try
         {
-            var treino = treinoDAL.GetTreinoPorId(id);
+            var treino = treinoService.GetTreinoPorId(id);
             return Ok(treino);
         }
         catch (TreinoNotFoundException ex)
@@ -99,15 +97,15 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("MaisRapido/2km")]
-    public IActionResult GetTreinoMaisRapido2km([FromServices] TreinoService treinoDAL)
+    public IActionResult GetTreinoMaisRapido2km()
     {
         try
         {
-            return Ok(treinoDAL.MostrarTreinoMaisRapido2km());
+            return Ok(treinoService.MostrarTreinoMaisRapido2km());
         }
-        catch (TreinoNotFoundException)
+        catch (TreinoNotFoundException ex)
         {
-            return NotFound("Nenhum treino encontrado para 2km.");
+            return NotFound(ex.Message);
         }
         catch (Exception)
         {
@@ -116,11 +114,11 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("MaisDistante")]
-    public IActionResult GetTreinoMaisDistante([FromServices] TreinoService treinoDAL)
+    public IActionResult GetTreinoMaisDistante()
     {
         try
         {
-            return Ok(treinoDAL.MostrarTreinoMaisDistante());
+            return Ok(treinoService.MostrarTreinoMaisDistante());
         }
         catch (TreinoNotFoundException ex)
         {
@@ -133,11 +131,11 @@ public class TreinoController : ControllerBase
     }
 
     [HttpGet("MaisLongo")]
-    public IActionResult GetTreinoMaisLongo([FromServices] TreinoService treinoDAL)
+    public IActionResult GetTreinoMaisLongo()
     {
         try
         {
-            return Ok(treinoDAL.MostrarTreinoMaisLongo());
+            return Ok(treinoService.MostrarTreinoMaisLongo());
         }
         catch (TreinoNotFoundException ex)
         {

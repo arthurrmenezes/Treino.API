@@ -1,6 +1,7 @@
-﻿    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Treino.API.Models;
+
 public class TreinoModel
 {
     [Key]

@@ -1,4 +1,5 @@
-﻿using Treino.API.DataBase.Dtos.Treino;
+﻿using AutoMapper;
+using Treino.API.DataBase.Dtos.Treino;
 using Treino.API.Models;
 using TreinoAPI.DataBase;
 using TreinoAPI.Exceptions;
@@ -7,21 +8,18 @@ namespace Treino.API.Services;
 
 public class TreinoService
 {
-    private readonly TreinoContext treinoContext;
+    private TreinoContext treinoContext;
+    private IMapper mapper;
 
-    public TreinoService(TreinoContext treinoContext)
+    public TreinoService(TreinoContext treinoContext, IMapper mapper)
     {
         this.treinoContext = treinoContext;
+        this.mapper = mapper;
     }
 
-    public void AdicionarTreino(TreinoDTO treinoDto)
+    public void AdicionarTreino(TreinoDto treinoDto)
     {
-        TreinoModel treino = new TreinoModel(treinoDto.Local, treinoDto.Distancia, treinoDto.Data, treinoDto.Tempo);
-        if (treino is null)
-        {
-            // faz sentido verificar se é null???
-            // chamar treinoDTO no SERVICE, e refatorar CONTROLLER...
-        }
+        TreinoModel treino = mapper.Map<TreinoModel>(treinoDto);
         treinoContext.Treinos.Add(treino);
         treinoContext.SaveChanges();
     }
@@ -35,19 +33,25 @@ public class TreinoService
         return treinoContext.Treinos.ToList();
     }
 
-    public void AtualizarTreino(TreinoModel treino)
+    public void AtualizarTreino(int id, TreinoDto treinoDto)
     {
-        if (treino is null)
+        var treinoAAtualizarModel = GetTreinoPorId(id);
+
+        if (treinoAAtualizarModel is null)
         {
             throw new TreinoNotFoundException("Nenhum treino foi encontrado.");
         }
-        treinoContext.Treinos.Update(treino);
+
+        mapper.Map(treinoDto, treinoAAtualizarModel);
+        
+        treinoContext.Treinos.Update(treinoAAtualizarModel);
         treinoContext.SaveChanges();
     }
 
     public void RemoverTreino(int id)
     {
-        var treino = treinoContext.Treinos.Where(t => t.Id.Equals(id)).FirstOrDefault();
+        var treino = treinoContext.Treinos.FirstOrDefault(t => t.Id.Equals(id));
+
         if (treino is null)
         {
             throw new TreinoNotFoundException("Nenhum treino foi encontrado com esse Id.");
@@ -59,6 +63,7 @@ public class TreinoService
     public TreinoModel GetTreinoPorId(int id)
     {
         var treino = treinoContext.Treinos.FirstOrDefault(t => t.Id.Equals(id));
+        
         if (treino is null)
         {
             throw new TreinoNotFoundException($"Nenhum treino com ID {id} foi encontrado.");
@@ -84,6 +89,7 @@ public class TreinoService
     public TreinoModel MostrarTreinoMaisDistante()
     {
         var treinoMaisDistante = treinoContext.Treinos.OrderByDescending(t => t.Distancia).FirstOrDefault();
+        
         if (treinoMaisDistante is null)
         {
             throw new TreinoNotFoundException("Nenhum treino foi encontrado.");
@@ -94,6 +100,7 @@ public class TreinoService
     public TreinoModel MostrarTreinoMaisLongo()
     {
         var treinoMaisLongo = treinoContext.Treinos.OrderByDescending(t => t.Tempo).FirstOrDefault();
+        
         if (treinoMaisLongo is null)
         {
             throw new TreinoNotFoundException("Nenhum treino foi encontrado.");

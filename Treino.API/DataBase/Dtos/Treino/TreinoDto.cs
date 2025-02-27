@@ -1,3 +1,3 @@
 ﻿namespace Treino.API.DataBase.Dtos.Treino;
 
-public record TreinoDTO(string Local, double Distancia, DateTime Data, TimeSpan Tempo);
+public record TreinoDto(string Local, double Distancia, DateTime Data, TimeSpan Tempo);
