@@ -5,7 +5,6 @@ namespace Treino.API.Models;
 public class TreinoModel
 {
     [Key]
-    [Required]
     public int Id { get; set; }
     [Required]
     public string Local { get; set; }
