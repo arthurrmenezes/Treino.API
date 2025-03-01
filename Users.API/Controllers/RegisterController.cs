@@ -6,11 +6,11 @@ namespace Users.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CadastroController : ControllerBase
+public class RegisterController : ControllerBase
 {
-    private UserService userService;
+    private RegisterService userService;
 
-    public CadastroController(UserService userService)
+    public RegisterController(RegisterService userService)
     {
         this.userService = userService;
     }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Treino.API.DataBase.Dtos.Treino;
+using Treino.API.DataBase.Dtos;
 using Treino.API.Services;
 using TreinoAPI.Exceptions;
 

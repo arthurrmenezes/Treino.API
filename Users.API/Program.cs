@@ -8,7 +8,7 @@ builder.Services.AddDbContext<UserContext>();
 builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
     .AddEntityFrameworkStores<UserContext>();
 
-builder.Services.AddScoped<UserService, UserService>();
+builder.Services.AddScoped<RegisterService, RegisterService>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

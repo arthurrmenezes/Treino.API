@@ -5,12 +5,12 @@ using Users.API.Models;
 
 namespace Users.API.Services;
 
-public class UserService
+public class RegisterService
 {
     private IMapper mapper;
     private UserManager<IdentityUser<int>> userManager;
 
-    public UserService(IMapper mapper, UserManager<IdentityUser<int>> userManager)
+    public RegisterService(IMapper mapper, UserManager<IdentityUser<int>> userManager)
     {
         this.mapper = mapper;
         this.userManager = userManager;

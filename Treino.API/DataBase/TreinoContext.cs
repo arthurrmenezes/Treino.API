@@ -9,7 +9,6 @@ public class TreinoContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Data Source=ULTRANOTE;Initial Catalog=TreinoAPI;" +
-            "Integrated Security=True;Trust Server Certificate=True");
+        optionsBuilder.UseSqlServer();
     }
 }

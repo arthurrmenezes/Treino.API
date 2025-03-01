@@ -10,6 +10,6 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<UserDto, UserModel>();
-        CreateMap<UserModel, IdentityUser>();
+        CreateMap<UserModel, IdentityUser<int>>();
     }
 }

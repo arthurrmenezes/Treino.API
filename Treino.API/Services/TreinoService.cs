@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Treino.API.DataBase.Dtos.Treino;
+using Treino.API.DataBase.Dtos;
 using Treino.API.Models;
 using TreinoAPI.DataBase;
 using TreinoAPI.Exceptions;
@@ -107,4 +107,6 @@ public class TreinoService
         }
         return treinoMaisLongo;
     }
+
+    // criar metodos: BuscarTreinoPorData, TotalDeCorridasNoMes, TotalDeCorridasNoAno
 }

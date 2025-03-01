@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Treino.API.DataBase.Dtos.Treino;
+using Treino.API.DataBase.Dtos;
 using Treino.API.Models;
 
 namespace Treino.API.Profiles;
