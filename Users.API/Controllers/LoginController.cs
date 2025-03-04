@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Users.API.DataBase.Request;
 using Users.API.Services;
 
 namespace Users.API.Controllers;
@@ -15,8 +16,17 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult LogarUser()
+    public async Task<IActionResult> LogarUser(LoginRequest loginRequest)
     {
-        return Ok();
+        try
+        {
+            var token = await loginService.LogarUser(loginRequest);
+            return Ok(token);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return Unauthorized();
+        }
     }
 }

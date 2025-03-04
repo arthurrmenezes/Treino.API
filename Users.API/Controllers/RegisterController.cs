@@ -8,17 +8,25 @@ namespace Users.API.Controllers;
 [Route("[controller]")]
 public class RegisterController : ControllerBase
 {
-    private RegisterService userService;
+    private RegisterService registerService;
 
-    public RegisterController(RegisterService userService)
+    public RegisterController(RegisterService registerService)
     {
-        this.userService = userService;
+        this.registerService = registerService;
     }
 
     [HttpPost]
-    public IActionResult CadastrarUsuario(UserDto userDto)
+    public async Task<IActionResult> CadastrarUser(UserDto userDto)
     {
-        userService.AdicionarUser(userDto);
-        return Created();
+        try
+        {
+            var resultado = await registerService.CadastrarUser(userDto);
+            return Ok(resultado);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500);
+        }
     }
 }

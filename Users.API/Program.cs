@@ -1,15 +1,27 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Users.API.DataBase;
 using Users.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<UserContext>();
-builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
-    .AddEntityFrameworkStores<UserContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<UserContext>(options =>
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<RegisterService, RegisterService>();
+builder.Services.AddScoped<LoginService, LoginService>();
+builder.Services.AddScoped<LogoutService, LogoutService>();
+builder.Services.AddScoped<TokenService, TokenService>();
 
+builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
+    opt => opt.SignIn.RequireConfirmedEmail = true)
+    .AddEntityFrameworkStores<UserContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -18,9 +30,10 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.Run();

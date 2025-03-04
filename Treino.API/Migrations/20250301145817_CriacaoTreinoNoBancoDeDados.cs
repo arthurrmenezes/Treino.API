@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -15,12 +16,12 @@ namespace Treino.API.Migrations
                 name: "Treinos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Local = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Distancia = table.Column<double>(type: "float", nullable: false),
-                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Tempo = table.Column<TimeSpan>(type: "time", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Local = table.Column<string>(type: "text", nullable: false),
+                    Distancia = table.Column<double>(type: "double precision", nullable: false),
+                    Data = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Tempo = table.Column<TimeSpan>(type: "interval", nullable: false)
                 },
                 constraints: table =>
                 {

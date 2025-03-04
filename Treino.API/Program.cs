@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
 using Treino.API.Services;
 using TreinoAPI.DataBase;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<TreinoContext>(options =>
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddDbContext<TreinoContext>();
 

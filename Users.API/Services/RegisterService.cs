@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Users.API.DataBase.Dtos;
 using Users.API.Models;
 
@@ -16,10 +17,20 @@ public class RegisterService
         this.userManager = userManager;
     }
 
-    public void AdicionarUser(UserDto userDto)
+    public async Task<string> CadastrarUser(UserDto userDto)
     {
         UserModel userModel = mapper.Map<UserModel>(userDto);
         IdentityUser<int> userIdentity = mapper.Map<IdentityUser<int>>(userModel);
-        var resultadoIdentity = userManager.CreateAsync(userIdentity, userDto.Password);
+        var resultadoIdentity = await userManager.CreateAsync(userIdentity, userDto.Password);
+
+        if (!resultadoIdentity.Succeeded)
+        {
+            throw new ApplicationException("Erro ao criar usuário!");
+        }
+        else
+        {
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(userIdentity);
+            return code;
+        }
     }
 }
