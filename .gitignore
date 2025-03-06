@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 appsettings.Development.json
+/Users.API/appsettings.Development.json
+/Treino.API/appsettings.Development.json
+/Users.API/appsettings.json

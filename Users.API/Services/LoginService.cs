@@ -1,5 +1,4 @@
 ﻿using Azure.Identity;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Users.API.DataBase.Request;
 using Users.API.Models;
