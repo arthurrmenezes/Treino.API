@@ -3,9 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treino.API", "Treino.API\Treino.API.csproj", "{05FDCA8F-A16F-406A-A1AC-916BA2121FB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreinoApp.WebApi", "Treino.API\TreinoApp.WebApi.csproj", "{05FDCA8F-A16F-406A-A1AC-916BA2121FB6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00ECF82C-DDE9-4284-B872-EEE5556196B0} = {00ECF82C-DDE9-4284-B872-EEE5556196B0}
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9} = {07DA10CB-479F-41EA-ACE2-D3A589BD62D9}
+		{C352C4F2-31B8-466D-BBCE-94BD24B158CF} = {C352C4F2-31B8-466D-BBCE-94BD24B158CF}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.API", "Users.API\Users.API.csproj", "{4F86237D-F677-4F64-A330-612B0A111486}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreinoApp.Infrastructure", "Treino.Infrastructure\TreinoApp.Infrastructure.csproj", "{00ECF82C-DDE9-4284-B872-EEE5556196B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9} = {07DA10CB-479F-41EA-ACE2-D3A589BD62D9}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreinoApp.Domain", "Treino.Domain\TreinoApp.Domain.csproj", "{07DA10CB-479F-41EA-ACE2-D3A589BD62D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreinoApp.Application", "Treino.Application\TreinoApp.Application.csproj", "{C352C4F2-31B8-466D-BBCE-94BD24B158CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00ECF82C-DDE9-4284-B872-EEE5556196B0} = {00ECF82C-DDE9-4284-B872-EEE5556196B0}
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9} = {07DA10CB-479F-41EA-ACE2-D3A589BD62D9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +33,18 @@ Global
 		{05FDCA8F-A16F-406A-A1AC-916BA2121FB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05FDCA8F-A16F-406A-A1AC-916BA2121FB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05FDCA8F-A16F-406A-A1AC-916BA2121FB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F86237D-F677-4F64-A330-612B0A111486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F86237D-F677-4F64-A330-612B0A111486}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F86237D-F677-4F64-A330-612B0A111486}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F86237D-F677-4F64-A330-612B0A111486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00ECF82C-DDE9-4284-B872-EEE5556196B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00ECF82C-DDE9-4284-B872-EEE5556196B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00ECF82C-DDE9-4284-B872-EEE5556196B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00ECF82C-DDE9-4284-B872-EEE5556196B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07DA10CB-479F-41EA-ACE2-D3A589BD62D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C352C4F2-31B8-466D-BBCE-94BD24B158CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C352C4F2-31B8-466D-BBCE-94BD24B158CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C352C4F2-31B8-466D-BBCE-94BD24B158CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C352C4F2-31B8-466D-BBCE-94BD24B158CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

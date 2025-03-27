@@ -1,28 +1,31 @@
-using Microsoft.EntityFrameworkCore;
-using Treino.API.Services;
-using TreinoAPI.DataBase;
+using TreinoApp.API.Services;
+using TreinoApp.Application;
+using TreinoApp.Infrastructure;
 
-var builder = WebApplication.CreateBuilder(args);
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TreinoContext>(options =>
-    options.UseNpgsql(connectionString));
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<TreinoContext>();
+        builder.Services.ApplyApplicationDependenciesConfiguration();
+        builder.Services.ApplyInfrastructureDependenciesConfiguration(connectionString!);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddScoped<TreinoRepository, TreinoRepository>();
+        builder.Services.AddControllers();
 
-builder.Services.AddScoped<TreinoService, TreinoService>();
-builder.Services.AddControllers();
+        var app = builder.Build();
 
-var app = builder.Build();
+        app.MapControllers();
 
-app.MapControllers();
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.Run();
+        app.Run();
+    }
+}

@@ -32,7 +32,6 @@ builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
     .AddDefaultTokenProviders();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -43,8 +42,5 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
-app.UseSwagger();
-app.UseSwaggerUI();
 
 app.Run();
